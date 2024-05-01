@@ -1,19 +1,6 @@
-// const Plant = require('../models/plantModel');
+const Plant = require('../models/plantModel');
 const mongoose = require('mongoose');
 require('dotenv').config();
-
-const MONGO_URI = process.env.MONGO_URI;
-
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
-
-const Schema = mongoose.Schema;
-
-const plantSchema = new Schema({});
-
-const Plant = mongoose.model('plant', plantSchema, 'plants6');
 
 const plantDataController = {};
 
@@ -36,12 +23,12 @@ plantDataController.getPlants = async (req, res, next) => {
     //get specific data
     const location = req.query.location;
     const data = await Plant.find({ State: location });
-    // if (data.length === 0)
-    //   throw createErr({
-    //     method: 'getPlants',
-    //     type: 'DB',
-    //     err: 'Entry Not found',
-    //   });
+    if (data.length === 0)
+      throw createErr({
+        method: 'getPlants',
+        type: 'DB',
+        err: 'Entry Not found',
+      });
     res.locals.plants = data;
     return next();
   } catch (err) {

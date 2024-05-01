@@ -4,7 +4,7 @@
   "description": "Plan the perfect garden whatever the size and location.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "build": "NODE_ENV=production webpack",
     "build-dev": "webpack --watch",
     "start": "nodemon server/server.js",
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/PF-Armadillos/ShellScape-Garden-Planner#readme",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.3.2",

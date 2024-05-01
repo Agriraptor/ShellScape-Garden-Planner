@@ -1,4 +1,6 @@
 const db = require('../models/userModel');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const userController = {};
 
@@ -15,133 +17,91 @@ const createErr = (errInfo) => {
     },
   };
 };
-
-userController.createUser = (req, res, next) => {
-  const { username, password } = req.body;
-  const values = [username, password];
-  const createUserQuery =
-    'INSERT INTO users (username, password) VALUES($1, $2)';
-
-  db.query(createUserQuery, values)
-    .then(() => {
-      res.locals.messsage = { message: 'User created successfully' };
+// Create new user
+userController.createUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    // Check if username exists on database
+    const existingUserQuery = 'SELECT * FROM users WHERE username = $1';
+    const existingUser = await db.query(existingUserQuery, [username]);
+    if (existingUser.rows.length === 1) {
+      //If it exists return an error message
+      res.locals.userCreated = false;
       return next();
-    })
-    .catch((error) => {
-      next(error);
-    });
+    } else {
+      // generate salt
+      const salt = await bcrypt.genSalt(saltRounds);
+      // hash password
+      const hashedPassword = await bcrypt.hash(password, salt);
+      const values = [username, hashedPassword];
+      // create new user
+      const createUserQuery =
+        'INSERT INTO users (username, password) OUTPUT INSERTED.username VALUES($1, $2)';
+      const newUser = await db.query(createUserQuery, values);
+      res.locals.userCreated = true;
+    }
+    return next();
+  } catch (err) {
+    return next(
+      createErr({
+        method: 'createUser',
+        type: 'Database',
+        err: err,
+      })
+    );
+  }
 };
 
-userController.loginUser = (req, res, next) => {
-  const { username, password } = req.body;
-  const values = [username, password];
-  const loginUserQuery =
-    'SELECT * FROM users WHERE username = $1 AND password = $2';
-
-  db.query(loginUserQuery, values)
-    .then((data) => {
-      if (data.rows.length === 1) {
-        // need to confirm if this is correct
-        res.locals.user = data.rows[0];
-        return next();
-      } else {
-        return res
-          .status(401)
-          .json({ message: 'Invalid username or password' });
-      }
-    })
-    .catch((error) => {
-      next(error);
-    });
+//Check login credentials vs database
+userController.loginUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    //check db for username existing
+    const userQuery = 'SELECT * FROM users WHERE username = $1';
+    const value = [username];
+    const exist = await db.query(userQuery, value);
+    if (exist.rows.length !== 1) {
+      res.locals.user = false;
+      return next();
+    }
+    //if database returns a value check if passed in password matches what is stored on the database
+    const result = await bcrypt.compare(password, exist.rows[0].password);
+    //if false return false
+    if (!result) {
+      res.locals.user = false;
+      return next();
+    } else {
+      res.locals.user = true;
+      return next();
+    }
+  } catch (error) {
+    return next(
+      createErr({
+        method: 'loginUser',
+        type: 'Database',
+        err: err,
+      })
+    );
+  }
 };
 
 userController.showTable = (req, res, next) => {
-  const pullTable = 'SELECT * FROM users'; // need table name.
+  const pullTable = 'SELECT * FROM users';
   db.query(pullTable)
     .then((data) => {
-      console.log(data);
+      res.locals.data = data.rows;
+      return next();
     })
     .catch((error) => {
       console.log(error);
+      return next(
+        createErr({
+          method: 'showTable',
+          type: 'Database',
+          err: err,
+        })
+      );
     });
 };
 
 module.exports = userController;
-
-//username unique, can't be more than fifty characters
-
-// Warning : I tried importing bcrypt into this file and added the functinoallity to encript the password but the code was breaking so I decided to remove it
-// here is the code I used.
-
-//createUser :
-/*
-userController.createUser = (req, res, next) => {
-  const { username, password } = req.body;
-  
-  // Hash the password
-  bcrypt.hash(password, 10, (err, hashedPassword) => {
-    if (err) {
-      return next(err);
-    }
-    
-    const values = [username, hashedPassword];
-    const createUserQuery =
-      "INSERT INTO users (username, password) VALUES($1, $2)";
-
-    db.query(createUserQuery, values)
-      .then(() => {
-        res.locals.message = { message: "User created successfully" };
-        return next();
-      })
-      .catch((error) => {
-        next(error);
-      });
-  });
-};
-*/
-
-//loginUser
-/*
-userController.loginUser = (req, res, next) => {
-  const { username, password } = req.body;
-  const values = [username];
-
-  const loginUserQuery =
-    "SELECT * FROM users WHERE username = $1";
-
-  db.query(loginUserQuery, values)
-    .then((data) => {
-      if (data.rows.length === 1) {
-        const user = data.rows[0];
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err || !result) {
-            return res
-              .status(401)
-              .json({ message: "Invalid username or password" });
-          } else {
-            // Password matches, proceed with login
-            res.locals.user = user;
-            return next();
-          }
-        });
-      } else {
-        return res
-          .status(401)
-          .json({ message: "Invalid username or password" });
-      }
-    })
-    .catch((error) => {
-      next(error);
-    });
-};
-*/
-
-// users need and increment with each user added id increments
-
-//usr,psswrd,pk:id,
-//id : first column,
-// next colmns
-//usr, email, psswd
-
-// Need to add id
-// How to do id increment logic ? set global variable that holds that and go from that ?

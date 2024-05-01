@@ -9,7 +9,7 @@
     "build-dev": "webpack --watch",
     "start": "nodemon server/server.js",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --color\" \"nodemon ./server/server.js\"",
-    "lint": "eslint ./tests/test.js"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,8 @@
     "@babel/preset-react": "^7.24.1",
     "@eslint/js": "^9.1.1",
     "@shelf/jest-mongodb": "^4.2.0",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^15.0.5",
     "autoprefixer": "^10.4.19",
     "babel-jest": "^29.7.0",
     "babel-loader": "^9.1.3",

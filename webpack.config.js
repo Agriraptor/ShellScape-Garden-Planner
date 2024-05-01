@@ -71,16 +71,16 @@ module.exports = {
 
   //not sure if needed for jest (in tutorial)
   resolve: {
-    alias: {
-      config$: './configs/app-config.js',
-      react: './vendor/react-master',
-    },
+    // alias: {
+    //   config$: './configs/app-config.js',
+    //   react: './vendor/react-master',
+    // },
     extensions: ['.js', '.jsx'],
     modules: [
       'node_modules',
       'bower_components',
-      'shared',
-      '/shared/vendor/modules',
+      // 'shared',
+      // '/shared/vendor/modules',
     ],
   },
 };

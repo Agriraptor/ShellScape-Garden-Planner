@@ -9,7 +9,7 @@
     "build-dev": "webpack --watch",
     "start": "nodemon server/server.js",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --color\" \"nodemon ./server/server.js\"",
-    "lint": "eslint ./tests/test.js"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

@@ -1,19 +1,6 @@
-// const Plant = require('../models/plantModel');
+const Plant = require('../models/plantModel');
 const mongoose = require('mongoose');
 require('dotenv').config();
-
-const MONGO_URI = process.env.MONGO_URI;
-
-//connecting to mongodb
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
-
-//mocking mongoose model for use in controller
-const Schema = mongoose.Schema;
-const plantSchema = new Schema({});
-const Plant = mongoose.model('plant', plantSchema, 'plants6');
 
 const plantDataController = {};
 
@@ -31,9 +18,9 @@ const createErr = (errInfo) => {
   };
 };
 
-//Grabs data from mongodb based on passed in location
 plantDataController.getPlants = async (req, res, next) => {
   try {
+    //get specific data
     const location = req.query.location;
     const data = await Plant.find({ State: location });
     if (data.length === 0)

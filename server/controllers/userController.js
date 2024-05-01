@@ -36,7 +36,7 @@ userController.createUser = async (req, res, next) => {
       const values = [username, hashedPassword];
       // create new user
       const createUserQuery =
-        'INSERT INTO users (username, password) VALUES($1, $2)';
+        'INSERT INTO users (username, password) OUTPUT INSERTED.username VALUES($1, $2)';
       const newUser = await db.query(createUserQuery, values);
       res.locals.userCreated = true;
     }
@@ -86,10 +86,10 @@ userController.loginUser = async (req, res, next) => {
 };
 
 userController.showTable = (req, res, next) => {
-  const pullTable = 'SELECT * FROM users'; // need table name.
+  const pullTable = 'SELECT * FROM users';
   db.query(pullTable)
     .then((data) => {
-      console.log(data);
+      res.locals.data = data.rows;
       return next();
     })
     .catch((error) => {

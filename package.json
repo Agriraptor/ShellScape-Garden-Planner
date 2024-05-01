@@ -4,7 +4,7 @@
   "description": "Plan the perfect garden whatever the size and location.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "build": "NODE_ENV=production webpack",
     "build-dev": "webpack --watch",
     "start": "nodemon server/server.js",

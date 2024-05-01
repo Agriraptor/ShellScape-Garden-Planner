@@ -6,7 +6,7 @@ import globals from 'globals';
 import js from '@eslint/js';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 const { nodeBuiltin: node, browser } = globals;
-import React from 'react';
+import react from 'eslint-plugin-react';
 // import jest from 'eslint-plugin-jest';
 
 // so eslint doesn't effect our tests files put ontop of test files or files to be ignored by eslint

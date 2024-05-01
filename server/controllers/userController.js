@@ -16,6 +16,7 @@ const createErr = (errInfo) => {
   };
 };
 
+//Create new user
 userController.createUser = (req, res, next) => {
   const { username, password } = req.body;
   const values = [username, password];
@@ -28,10 +29,11 @@ userController.createUser = (req, res, next) => {
       return next();
     })
     .catch((error) => {
-      next(error);
+      return next(createErr());
     });
 };
 
+//Check login credentials vs database
 userController.loginUser = (req, res, next) => {
   const { username, password } = req.body;
   const values = [username, password];
@@ -51,7 +53,7 @@ userController.loginUser = (req, res, next) => {
       }
     })
     .catch((error) => {
-      next(error);
+      return next(createErr());
     });
 };
 
@@ -60,9 +62,11 @@ userController.showTable = (req, res, next) => {
   db.query(pullTable)
     .then((data) => {
       console.log(data);
+      return next();
     })
     .catch((error) => {
       console.log(error);
+      return next(createErr());
     });
 };
 

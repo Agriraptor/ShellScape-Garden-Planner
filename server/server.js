@@ -13,11 +13,11 @@ app.use(express.json());
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
-app.use('/user', userRouter);
-
 app.get('/plant?:location', plantDataController.getPlants, (req, res) => {
   res.status(200).json(res.locals.plants);
 });
+
+app.use('/user', userRouter);
 
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));

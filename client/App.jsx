@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { Switch, Route } from 'react-router-dom';
 import LoginForm from './components/LoginForm.jsx';
 import Header from './components/Header.jsx';
@@ -7,7 +7,7 @@ import CreateGarden from './components/CreateGarden.jsx';
 import SelectPlants from './components/SelectPlants.jsx';
 import SelectPlantsTester2 from './components/SelectPlantsTester2.jsx';
 import SelectPlantsTester3 from './components/SelectPlantsTester3.jsx';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 
 const App = () => {
   return (

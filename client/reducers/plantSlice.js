@@ -38,12 +38,12 @@ export const plantSlice = createSlice({
   },
 });
 
-//async function if we do everything on one page
+//async function if we do everything on one page (THUNK FUNCTION -> redux toolkit)
 export const getPlantDataAsync = (location) => {
   return async (dispatch, getState) => {
     try {
       console.log(location);
-      const plantData = await fetch(`/plant/?location=${location}`);
+      const plantData = await fetch(`/plant?location=${location}`);
       console.log(plantData);
       //check for empty data
       if (!plantData.ok) {

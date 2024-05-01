@@ -57,6 +57,20 @@ userController.loginUser = (req, res, next) => {
     });
 };
 
+//Check if user exists on db -> check password by comparing the bcrypt
+userController.checkUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const values = [username, password];
+    const query = 'SELECT * FROM users WHERE username = $1 AND password = $2';
+    const data = await db.query(query, values);
+    console.log(data);
+    if (data.length === 0) throw 'Error'; //username does not exist
+  } catch (err) {
+    return next(createErr());
+  }
+};
+
 userController.showTable = (req, res, next) => {
   const pullTable = 'SELECT * FROM users'; // need table name.
   db.query(pullTable)

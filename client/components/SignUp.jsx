@@ -15,7 +15,7 @@ export default function LoginForm() {
     try {
       e.preventDefault();
       e.target.disabled = true;
-      const res = await fetch('/signup', {
+      const res = await fetch('/user/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username, password: password }),

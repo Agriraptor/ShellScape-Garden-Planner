@@ -81,8 +81,8 @@ module.exports = {
     modules: [
       'node_modules',
       'bower_components',
-      'shared',
-      '/shared/vendor/modules',
+      // 'shared',
+      // '/shared/vendor/modules',
     ],
   },
 };

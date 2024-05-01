@@ -1,4 +1,3 @@
-
 const db = require('../models/userModel');
 
 const userController = {};
@@ -16,15 +15,16 @@ const createErr = (errInfo) => {
     },
   };
 };
+
 userController.createUser = (req, res, next) => {
   const { username, password } = req.body;
   const values = [username, password];
   const createUserQuery =
-    "INSERT INTO users (username, password) VALUES($1, $2)";
+    'INSERT INTO users (username, password) VALUES($1, $2)';
 
   db.query(createUserQuery, values)
     .then(() => {
-      res.locals.messsage = { message: "User created successfully" };
+      res.locals.messsage = { message: 'User created successfully' };
       return next();
     })
     .catch((error) => {
@@ -36,7 +36,7 @@ userController.loginUser = (req, res, next) => {
   const { username, password } = req.body;
   const values = [username, password];
   const loginUserQuery =
-    "SELECT * FROM users WHERE username = $1 AND password = $2";
+    'SELECT * FROM users WHERE username = $1 AND password = $2';
 
   db.query(loginUserQuery, values)
     .then((data) => {
@@ -47,7 +47,7 @@ userController.loginUser = (req, res, next) => {
       } else {
         return res
           .status(401)
-          .json({ message: "Invalid username or password" });
+          .json({ message: 'Invalid username or password' });
       }
     })
     .catch((error) => {
@@ -56,7 +56,7 @@ userController.loginUser = (req, res, next) => {
 };
 
 userController.showTable = (req, res, next) => {
-  const pullTable = "SELECT * FROM users"; // need table name.
+  const pullTable = 'SELECT * FROM users'; // need table name.
   db.query(pullTable)
     .then((data) => {
       console.log(data);
@@ -145,4 +145,3 @@ userController.loginUser = (req, res, next) => {
 
 // Need to add id
 // How to do id increment logic ? set global variable that holds that and go from that ?
-

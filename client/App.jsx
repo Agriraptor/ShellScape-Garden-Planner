@@ -1,5 +1,4 @@
 import React, { useState } from "react"; // eslint-disable-line no-unused-vars
-// import { Switch, Route } from 'react-router-dom';
 import LoginForm from "./components/LoginForm.jsx";
 import Header from "./components/Header.jsx";
 import SignUp from "./components/SignUp.jsx";
@@ -8,6 +7,7 @@ import SelectPlants from "./components/SelectPlants.jsx";
 import SelectPlantsTester2 from "./components/SelectPlantsTester2.jsx";
 import SelectPlantsTester3 from "./components/SelectPlantsTester3.jsx";
 import { Routes, Route } from "react-router-dom";
+
 
 // when we use () right after the => it is implicit of the return
 const App = () => (

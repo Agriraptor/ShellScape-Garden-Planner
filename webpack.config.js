@@ -74,6 +74,8 @@ module.exports = {
     // alias: {
     //   config$: './configs/app-config.js',
     //   react: './vendor/react-master',
+    //   extensions: ['.js', '.jsx', '.json'],
+    //   modules: ['node_modules'],
     // },
     extensions: ['.js', '.jsx'],
     modules: [

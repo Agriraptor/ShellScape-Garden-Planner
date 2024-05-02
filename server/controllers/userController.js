@@ -40,7 +40,6 @@ userController.createUser = async (req, res, next) => {
       const createUserQuery =
         'INSERT INTO users (username, password) VALUES($1, $2)';
       const newUser = await db.query(createUserQuery, values);
-
       // return true for user creation success
       res.locals.userCreated = true;
     }

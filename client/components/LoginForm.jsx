@@ -20,7 +20,7 @@ export default function LoginForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username, password: password }),
       });
-      console.log(res.json())
+      console.log(await res.json)
       const data = await res.json();
       console.log('data', data.bull);
       if (!data.bull) navigate('/signup');

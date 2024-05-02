@@ -19,6 +19,11 @@ const CreateGarden = () => {
       if (location.includes(' ')) {
         const replaced = location.replace(/ /g, '+');
         dispatch(getPlantDataAsync(replaced));
+      } else if (!location || !length || !width) {
+        //displays alert to fill out form completely and naviages them back to the page
+        alert("Please enter location, length and width of garden")
+        navigate('/CreateGarden');
+        return;
       } else dispatch(getPlantDataAsync(location));
       const area = length * width;
       console.log(area);

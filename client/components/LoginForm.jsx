@@ -20,15 +20,15 @@ export default function LoginForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username, password: password }),
       });
-      if (!res) throw console.log('Something went wrong!');
-      console.log(res);
+      console.log(res.json())
+      const data = await res.json();
+      console.log('data', data.bull);
+      if (!data.bull) navigate('/signup');
       //reset form
       setUsername('');
       setPassword('');
       e.target.disabled = false;
-      if (res) {
-        navigate('/CreateGarden');
-      }
+      if (data.bull) navigate('/CreateGarden');
     } catch (err) {
       console.log('Error: ', err);
     }

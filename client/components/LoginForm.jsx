@@ -11,7 +11,6 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const submit = async (e) => {
-    //sanitize data?
     try {
       e.preventDefault();
       e.target.disabled = true;
@@ -20,15 +19,13 @@ export default function LoginForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username, password: password }),
       });
-      if (!res) throw console.log('Something went wrong!');
-      console.log(res);
+      const login = await res.json();
+      if (!login) navigate('/SignUp');
       //reset form
       setUsername('');
       setPassword('');
       e.target.disabled = false;
-      if (res) {
-        navigate('/CreateGarden');
-      }
+      navigate('/CreateGarden');
     } catch (err) {
       console.log('Error: ', err);
     }

@@ -12,7 +12,7 @@ const config = {
     '\\.(css|less)$': 'ShellScape-Garden-Planner/__mocks__/styleMock.js',
     '\\.(gif|ttf|eot|svg)$': 'ShellScape-Garden-Planner/__mocks__/fileMock.js',
     //handling webpack alias
-    '^react(.*)$': 'ShellScape-Garden-Planner/vendor/react-master$1',
+    '^react(.*)$': 'ShellScape-Garden-Planner/node_modules/react$1',
     '^config$': 'ShellScape-Garden-Planner/configs/app-config.js',
   },
   //mock out asset and style sheets

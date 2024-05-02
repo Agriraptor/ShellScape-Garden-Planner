@@ -25,7 +25,7 @@ export default function LoginForm() {
       setUsername('');
       setPassword('');
       e.target.disabled = false;
-      navigate('/CreateGarden');
+      if (login) navigate('/CreateGarden');
     } catch (err) {
       console.log('Error: ', err);
     }

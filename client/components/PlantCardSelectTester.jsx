@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function PlantCardSelectTester({
@@ -11,6 +11,17 @@ function PlantCardSelectTester({
   water,
   plantId,
 }) {
+  const [count,setCount] = useState(0);
+
+  const handleIncrement = () => {
+    setCount(count + 1);
+  };
+
+  const handleDecrement = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
   return (
     <div className='plant-card'>
       <img src={image} alt={`${commonName}`} className='plant-image-small' />
@@ -32,8 +43,9 @@ function PlantCardSelectTester({
           <strong>Water Needs:</strong> {water}
         </p>
         <div>
-          <button className='add'>+</button>
-          <button className='minus'>-</button>
+          <button className='add' onClick={handleIncrement}>+</button>
+          <span>{count}</span>
+          <button className='minus' onClick={handleDecrement}>-</button>
         </div>
       </div>
     </div>
